@@ -21,8 +21,7 @@ app.get("/", (req, res) => {
 });
 
 //Connecting to ports
-const PORT = process.env.port
-app.listen(PORT  || 3000, function(){
+app.listen(process.env.PORT  || 3000, function(){
     console.log("App connected on port " + PORT)
 });
 
