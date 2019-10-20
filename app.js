@@ -1,5 +1,6 @@
 const   express     = require("express"),
         request     = require("request"),
+        expressIp   = require("express-ip"),
         bodyParser  = require("body-parser");
 
 const app = express()
@@ -10,9 +11,13 @@ app.set("view engine", "ejs")
 //Serve static files
 app.use(express.static("public"))
 
+//Get client IP
+app.use(expressIp().getIpInfoMiddleware);
+
 //Routes
-app.get("/", (req, res) => {
-    res.render("index");
+app.get("/", function(req, res){
+    let location = req.ipInfo
+    res.render("index", {location: location})
 });
 
 //Connecting to ports
