@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 
 //Connecting to ports
 app.listen(process.env.PORT  || 3000, function(){
-    console.log("App connected on port " + PORT)
+    console.log("App connected");
 });
 
 
