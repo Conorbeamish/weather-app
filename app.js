@@ -16,7 +16,7 @@ app.use(expressIp().getIpInfoMiddleware);
 
 //Routes
 app.get("/", (req, res) => {
-    let location = req.ipInfo
+    let location = req.ipInfo.city
     res.render("index", {location: location});
 });
 
