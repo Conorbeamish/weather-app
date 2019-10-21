@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
         } else {
             let weather = JSON.parse(body)
             if(weather.main == undefined){
-                res.render("index", {weather: null, error: "theres been an error"});
+                res.render("index", {weather: null, error: "theres been an error", city: city, country: country});
             } else {
                 let weatherDisplay = "It's ${weather.main.temp} degrees"
                 res.render("index", {city: city, country: country, weather: weatherDisplay});
