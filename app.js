@@ -11,14 +11,24 @@ app.set("view engine", "ejs")
 //Serve static files
 app.use(express.static("public"))
 
+//Use body parser
+app.use(bodyParser.urlencoded({ extended: true }));
+
 //Get user Ip location
 app.use(expressIp().getIpInfoMiddleware);
 
-//Routes
+//ROUTES
 app.get("/", (req, res) => {
-    let location = req.ipInfo.city
-    res.render("index", {location: location});
+    let city = req.ipInfo.city
+    let country = req.ipInfo.country
+    res.render("index", {city: city, country: country});
 });
+
+app.post("/", (req, res) => {
+
+})
+
+//==End ROUTES==
 
 //Connecting to ports
 app.listen(process.env.PORT  || 3000, function(){
