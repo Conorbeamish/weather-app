@@ -1,7 +1,8 @@
 const   express     = require("express"),
         request     = require("request"),
         bodyParser  = require("body-parser"),
-        expressIp   = require("express-ip");
+        expressIp   = require("express-ip"),
+        apiKey      = process.env.OPEN_WEATHER_MAP;
 
 const app = express()
 
@@ -19,13 +20,28 @@ app.use(expressIp().getIpInfoMiddleware);
 
 //ROUTES
 app.get("/", (req, res) => {
-    let city = req.ipInfo.city
-    let country = req.ipInfo.country
-    res.render("index", {city: city, country: country});
+    let city = req.ipInfo.city;
+    let country = req.ipInfo.country;
+    let url = "http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}"
+    request(url, (err, response, body) => {
+        if(err){
+            res.render("index", {weather: null, error: "woops theres an error", city: city, country: country});
+        } else {
+            let weather = JSON.parse(body)
+            if(weather.main == undefined){
+                res.render("index", {weather: null, error: "theres been an error"});
+            } else {
+                let weatherDisplay = "It's ${weather.main.temp} degrees"
+                res.render("index", {city: city, country: country, weather: weatherDisplay});
+            }
+        }
+    })
 });
 
 app.post("/", (req, res) => {
-
+    let city = req.body.city
+    let country = req.body.city
+    res.render("index", {city: city, country: country});
 })
 
 //==End ROUTES==
