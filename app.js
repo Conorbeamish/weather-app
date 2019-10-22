@@ -2,7 +2,7 @@ const   express     = require("express"),
         request     = require("request"),
         bodyParser  = require("body-parser"),
         expressIp   = require("express-ip"),
-        apiKey      = process.env.OPEN_WEATHER_MAP;
+        apiKey      = process.env.OPEN_WEATHER_MAP || "d89ff9b44712960dfc5aae8234459569";
 
 const app = express()
 
@@ -22,17 +22,17 @@ app.use(expressIp().getIpInfoMiddleware);
 app.get("/", (req, res) => {
     let city = req.ipInfo.city;
     let country = req.ipInfo.country;
-    let url = "http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}"
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
     request(url, (err, response, body) => {
         if(err){
             res.render("index", {weather: null, error: "woops theres an error", city: city, country: country});
         } else {
             let weather = JSON.parse(body)
             if(weather.main == undefined){
-                res.render("index", {weather: null, error: "theres been an error", city: city, country: country});
+                res.render("index", {weather: null, error: "No weather data availible", city: city, country: country});
             } else {
-                let weatherDisplay = "It's ${weather.main.temp} degrees"
-                res.render("index", {city: city, country: country, weather: weatherDisplay});
+                let weatherDisplay = `It's ${weather.main.temp} degrees`
+                res.render("index", {city: city, country: country, weather: weatherDisplay, error: null});
             }
         }
     })
