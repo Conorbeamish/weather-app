@@ -2,7 +2,7 @@ const   express     = require("express"),
         request     = require("request"),
         bodyParser  = require("body-parser"),
         expressIp   = require("express-ip"),
-        apiKey      = process.env.OPEN_WEATHER_MAP || "d89ff9b44712960dfc5aae8234459569";
+        apiKey      = process.env.OPEN_WEATHER_MAP;
 
 const app = express()
 
